@@ -4,11 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("chai").assert;
+import assert from "./setup/assert";
 
-const index = require("../lib"),
-      DataStore = require("../lib/datastore"),
-      DataStoreError = require("../lib/util/errors");
+import * as index from "../lib";
+import DataStore from "../lib/datastore";
+import DataStoreError from "../lib/util/errors";
 
 describe("index", () => {
   it("has expected symbols", () => {

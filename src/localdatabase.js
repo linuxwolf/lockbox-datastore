@@ -4,11 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const DataStoreError = require("./util/errors");
+import DataStoreError from "./util/errors";
 
-const Dexie = require("dexie"),
-      indexedDB = require("fake-indexeddb"),
-      IDBKeyRange = require("fake-indexeddb/lib/FDBKeyRange");
+import Dexie from "dexie";
+import indexedDB from "fake-indexeddb";
+import IDBKeyRange from"fake-indexeddb/lib/FDBKeyRange";
+
 
 // Prepare Dexie
 if (Object.keys(indexedDB).length && Object.keys(IDBKeyRange).length) {
@@ -30,8 +31,8 @@ if (Object.keys(indexedDB).length && Object.keys(IDBKeyRange).length) {
  *
  * @memberof localdatabase
  */
-const DEFAULT_BUCKET = "lockboxdatastore";
-const DATABASE_VERSION = 0.1;
+export const DEFAULT_BUCKET = "lockboxdatastore";
+export const DATABASE_VERSION = 0.1;
 
 let DATABASES;
 
@@ -45,7 +46,7 @@ let DATABASES;
  * @returns {Dexie} The initialized and opened Dexie database.
  * @memberof localdatabase
  */
-async function open(bucket) {
+export async function open(bucket) {
   let db = new Dexie(bucket = bucket || DEFAULT_BUCKET);
 
   // setup version 0.1
@@ -73,7 +74,7 @@ async function open(bucket) {
  * @private
  * @memberof localdatabase
  */
-async function startup() {
+export async function startup() {
   DATABASES = new Set();
 }
 /**
@@ -85,7 +86,7 @@ async function startup() {
  * @private
  * @memberof localdatabase
  */
-async function teardown() {
+export async function teardown() {
   if (!DATABASES) {
     return;
   }
@@ -94,11 +95,3 @@ async function teardown() {
   all = all.map(async db => db.delete());
   await Promise.all(all);
 }
-
-Object.assign(exports, {
-  open,
-  teardown,
-  startup,
-  DEFAULT_BUCKET,
-  DATABASE_VERSION
-});

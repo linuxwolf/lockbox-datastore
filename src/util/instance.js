@@ -6,9 +6,9 @@
 
 const INST_DATA = new WeakMap();
 
-function get(self) { return INST_DATA.get(self); }
+export function get(self) { return INST_DATA.get(self); }
 
-function stage(self, ref) {
+export function stage(self, ref) {
   let data = get(self);
   // assume {ref} overwrites any existing {data}
   if (data && ref) {
@@ -19,8 +19,3 @@ function stage(self, ref) {
   }
   return data;
 }
-
-Object.assign(exports, {
-  get,
-  stage
-});

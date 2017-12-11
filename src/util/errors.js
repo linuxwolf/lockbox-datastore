@@ -8,7 +8,7 @@
  * Errors specific to DataStore operations.
  *
  */
-class DataStoreError extends Error {
+export default class DataStoreError extends Error {
   /**
    * Creates a new DataStoreError with the given message and reason.
    *
@@ -81,5 +81,3 @@ DataStoreError.INVALID_ITEM = Symbol("INVALID_ITEM");
  * @type Symbol
  */
 DataStoreError.GENERIC_ERROR = Symbol("GENERIC_ERROR");
-
-module.exports = DataStoreError;

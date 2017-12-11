@@ -4,9 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("chai").assert;
+import { assert } from "chai";
 
 const ACCEPTED_DELTA_MS = 250;
+
+function reasonMatches(actual, expected) {
+  assert.typeOf(actual, "symbol");
+  assert.strictEqual(actual.toString(), `Symbol(${expected})`);
+}
 
 function dateInRange(actual, expected, message) {
   actual = new Date(actual);
@@ -29,7 +34,7 @@ function itemMatches(actual, expected, message, parent) {
     let mPrefix = `${parent ? parent + "." : ""}${m}: `;
     let actVal = actual[m],
         expVal = expected[m];
-    
+
     if (DATE_MEMBERS.indexOf(m) !== -1) {
       dateInRange(actVal, expVal, mPrefix + `${m} out of range`);
     } else if (Array.isArray(expVal)) {
@@ -46,8 +51,10 @@ function itemMatches(actual, expected, message, parent) {
   });
 }
 
-Object.assign(assert, {
+const exported = {
+  ...assert,
+  itemMatches,
+  reasonMatches,
   dateInRange,
-  itemMatches
-});
-module.exports = assert;
+};
+export default exported;

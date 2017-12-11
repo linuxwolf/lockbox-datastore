@@ -4,10 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("chai").assert;
+import assert from "./setup/assert";
 
-const DataStoreError = require("../lib/util/errors"),
-      localdatabase = require("../lib/localdatabase");
+import DataStoreError from "../lib/util/errors";
+import * as localdatabase from "../lib/localdatabase";
 
 describe("localdatabase", () => {
   let ldb;

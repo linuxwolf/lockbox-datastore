@@ -4,9 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("chai").assert;
+require("babel-register");
 
-const instance = require("../../lib/util/instance");
+import assert from "../setup/assert";
+import * as instance from "../../lib/util/instance";
 
 describe("util/instance", () => {
   let thing1 = new Object(),

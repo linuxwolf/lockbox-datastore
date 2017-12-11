@@ -4,14 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = Object.assign({}, require("chai").assert, {
-  reasonMatches: (actual, expected) => {
-    assert.typeOf(actual, "symbol");
-    assert.strictEqual(actual.toString(), `Symbol(${expected})`);
-  }
-});
-
-const DataStoreError = require("../../lib/util/errors");
+import assert from "../setup/assert";
+import DataStoreError from "../../lib/util/errors";
 
 describe("util/errors", () => {
   describe("Reasons", () => {

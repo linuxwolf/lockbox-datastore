@@ -4,11 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const jsonmergepatch = require("json-merge-patch"),
-      joi = require("joi"),
-      UUID = require("uuid");
-      
-const DataStoreError = require("./util/errors");
+import * as jsonmergepatch from "json-merge-patch";
+import * as joi from "joi";
+import UUID from "uuid";
+
+import DataStoreError from "./util/errors";
 
 const STRING_500 = joi.string().max(500).allow("").allow(null).default("");
 const STRING_10K = joi.string().max(10000).allow("").allow(null).default("");
@@ -36,7 +36,7 @@ const VALIDATE_OPTIONS = {
 
 const HISTORY_MAX = 100;
 
-function prepare(item, source) {
+export function prepare(item, source) {
   // strip out anything not in the whitelist
   let { error, value: destination } = SCHEMA.validate(item, VALIDATE_OPTIONS);
   if (error) {
@@ -49,7 +49,7 @@ function prepare(item, source) {
     });
     throw thrown;
   }
-  
+
   // apply read-only values
   source = source || {};
   destination.id = source.id || UUID();
@@ -57,7 +57,7 @@ function prepare(item, source) {
   destination.created = source.created || new Date().toISOString();
   // always assume the item is modified
   destination.modified = new Date().toISOString();
-  
+
   // generate history patch (to go backward)
   let history = [];
   if (source && source.entry) {
@@ -76,7 +76,3 @@ function prepare(item, source) {
 
   return destination;
 }
-
-Object.assign(exports, {
-  prepare
-});

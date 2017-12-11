@@ -4,14 +4,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("./setup/assert");
+import assert from "./setup/assert";
 
+import * as jsonmergepatch from "json-merge-patch";
+import UUID from "uuid";
 
-const jsonmergepatch = require("json-merge-patch"),
-      UUID = require("uuid");
-
-const DataStoreError = require("../lib/util/errors"),
-      Items = require("../lib/items");
+import DataStoreError from "../lib/util/errors";
+import * as Items from "../lib/items";
 
 const ITEM_MEMBERS = [ "id", "title", "origins", "tags", "entry", "disabled", "created", "modified", "history" ];
 const ENTRY_MEMBERS = ["kind", "username", "password", "notes"];
@@ -29,9 +28,9 @@ describe("items", () => {
           notes: "some notes for the entry"
         }
       };
-      
+
       let result = Items.prepare(item);
-      assert(item !== result);
+      assert.ok(item !== result);
       assert.hasAllKeys(result, ITEM_MEMBERS);
       assert.hasAllKeys(result.entry, ENTRY_MEMBERS);
       assert.itemMatches(result, Object.assign({}, item, {
@@ -73,10 +72,10 @@ describe("items", () => {
         created: new Date().toISOString(),
         patch: jsonmergepatch.generate(item.entry, source.entry)
       });
-      
+
       let result = Items.prepare(item, source);
-      assert(result !== item);
-      assert(result !== source);
+      assert.ok(result !== item);
+      assert.ok(result !== source);
       assert.itemMatches(result, Object.assign({}, source, item, {
         modified: new Date().toISOString(),
         history
@@ -92,9 +91,9 @@ describe("items", () => {
           password: "secret"
         }
       };
-      
+
       let result = Items.prepare(item);
-      assert(result !== item);
+      assert.ok(result !== item);
       assert.hasAllKeys(result, ITEM_MEMBERS);
       assert.itemMatches(result, Object.assign({}, item, {
         disabled: false,
@@ -129,9 +128,9 @@ describe("items", () => {
         created: new Date().toISOString(),
         patch: jsonmergepatch.generate(item.entry, source.entry)
       });
-      
+
       let result = Items.prepare(item, source);
-      assert(result !== item);
+      assert.ok(result !== item);
       assert.hasAllKeys(result, ITEM_MEMBERS);
       assert.itemMatches(result, Object.assign({}, source, item, {
         tags: [],
@@ -150,14 +149,14 @@ describe("items", () => {
           username: "someone"
         }
       };
-      
+
       let result = Items.prepare(item);
-      assert(result !== item);
+      assert.ok(result !== item);
       assert.hasAllKeys(result, ITEM_MEMBERS);
       assert.hasAllKeys(result.entry, ENTRY_MEMBERS);
     });
   });
-  
+
   describe("sad", () => {
     function packString(max) {
       const ALPHA = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- ";
@@ -182,7 +181,7 @@ describe("items", () => {
       }
       return item;
     }
-    
+
     it("fails to prepare an item without an entry", () => {
       let item = {
         title: "some title",
@@ -235,7 +234,7 @@ describe("items", () => {
 
       try {
         Items.prepare(item);
-        assert(false, "expected failure");
+        assert.ok(false, "expected failure");
       } catch (err) {
         assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
@@ -396,7 +395,7 @@ describe("items", () => {
 
       try {
         Items.prepare(item);
-        assert(false, "expected failure");
+        assert.ok(false, "expected failure");
       } catch (err) {
         assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);
@@ -421,7 +420,7 @@ describe("items", () => {
 
       try {
         Items.prepare(item);
-        assert(false, "expected failure");
+        assert.ok(false, "expected failure");
       } catch (err) {
         assert.strictEqual(err.message, "item changes invalid");
         assert.strictEqual(err.reason, DataStoreError.INVALID_ITEM);

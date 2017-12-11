@@ -4,11 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("chai").assert,
-      jose = require("node-jose"),
-      UUID = require("uuid");
+import assert from "./setup/assert";
+import * as jose from "node-jose";
+import UUID from "uuid";
 
-const ItemKeyStore = require("../lib/itemkeystore");
+import ItemKeyStore from "../lib/itemkeystore";
 
 async function loadMasterKey() {
   let bundle = require("./setup/key-bundle.json");
@@ -70,7 +70,7 @@ describe("ItemKeyStore", () => {
         listing: new Map(cache)
       });
       let all = await iks.all();
-      assert(all !== cache);
+      assert.ok(all !== cache);
       assert.deepEqual(all, cache);
       assert.strictEqual(iks.size, cache.size);
     });
@@ -111,7 +111,7 @@ describe("ItemKeyStore", () => {
       let iks = new ItemKeyStore(context);
       try {
         await iks.load();
-        assert(false, "unexpected success");
+        assert.ok(false, "unexpected success");
       } catch (err) {
         assert.strictEqual(err.message, "invalid master key");
       }
@@ -122,7 +122,7 @@ describe("ItemKeyStore", () => {
       let iks = new ItemKeyStore(context);
       try {
         await iks.load();
-        assert(false, "unexpected success");
+        assert.ok(false, "unexpected success");
       } catch (err) {
         assert.strictEqual(err.message, "not encrypted");
       }

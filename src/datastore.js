@@ -4,12 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const Items = require("./items"),
-      ItemKeyStore = require("./itemkeystore"),
-      DataStoreError = require("./util/errors"),
-      instance = require("./util/instance"),
-      localdatabase = require("./localdatabase"),
-      jose = require("node-jose");
+import * as Items from "./items";
+import ItemKeyStore from "./itemkeystore";
+import DataStoreError from "./util/errors";
+import * as instance from "./util/instance";
+import * as localdatabase from "./localdatabase";
+import * as jose from "node-jose";
 
 const DEFAULT_APP_KEY = {
   "kty": "oct",
@@ -104,7 +104,7 @@ function determineItemChanges(prev, next) {
 /**
  * Represents item storage.
  */
-class DataStore {
+export default class DataStore {
   /**
    * Creates a new DataStore.
    *
@@ -452,5 +452,3 @@ class DataStore {
     return item || null;
   }
 }
-
-module.exports = DataStore;

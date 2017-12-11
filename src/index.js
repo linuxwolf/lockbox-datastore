@@ -4,8 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const DataStore = require("./datastore"),
-      DataStoreError = require("./util/errors");
+import DataStore from "./datastore";
+import DataStoreError from "./util/errors"; // eslint-disable-line no-unused-vars
 
 /**
  * Creates a new {DataStore} using the given configuration, and prepares it
@@ -36,7 +36,7 @@ async function open(cfg) {
   return (new DataStore(cfg)).prepare();
 }
 
-Object.assign(exports, {
-  DataStoreError,
-  open
-});
+export {
+  open,
+  DataStoreError
+};

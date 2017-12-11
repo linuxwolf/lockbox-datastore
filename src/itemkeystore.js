@@ -4,14 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const instance = require("./util/instance"),
-      jose = require("node-jose");
+import * as instance from "./util/instance";
+import * as jose from "node-jose";
 
 /**
  * Manages a set of item keys. This includes generation, encryption, and
  * decryption of the set.
  */
-class ItemKeyStore {
+export default class ItemKeyStore {
   /**
    * Creates a new ItemKeyStore.
    *
@@ -279,5 +279,3 @@ class ItemKeyStore {
     return item;
   }
 }
-
-module.exports = ItemKeyStore;

@@ -4,15 +4,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-const assert = require("./setup/assert");
+import assert from "./setup/assert";
 
-const UUID = require("uuid"),
-      jose = require("node-jose"),
-      jsonmergepatch = require("json-merge-patch");
+import UUID from "uuid";
+import * as jose from "node-jose";
+import * as jsonmergepatch from "json-merge-patch";
 
-const DataStore = require("../lib/datastore"),
-      localdatabase = require("../lib/localdatabase"),
-      DataStoreError = require("../lib/util/errors");
+import DataStore from "../lib/datastore";
+import DataStoreError from "../lib/util/errors";
+import * as localdatabase from "../lib/localdatabase";
 
 function loadAppKey(bundle) {
   // master key contains secret
@@ -71,12 +71,12 @@ describe("datastore", () => {
 
         let result = await ds.initialize({ appKey });
         assert.strictEqual(result, ds);
-        assert(!ds.locked);
-        assert(ds.initialized);
+        assert.ok(!ds.locked);
+        assert.ok(ds.initialized);
 
         await ds.lock();
         await ds.unlock(appKey);
-        assert(!ds.locked);
+        assert.ok(!ds.locked);
 
         return ds;
       };
@@ -115,46 +115,46 @@ describe("datastore", () => {
     it("resets an initialized datatore", async () => {
       let ds = await setupTest()();
 
-      assert(ds.initialized);
+      assert.ok(ds.initialized);
 
       let result;
       result = await ds.reset();
-      assert(!ds.initialized);
+      assert.ok(!ds.initialized);
       assert.strictEqual(result, ds);
     });
     it("resets an uninitialized datatore", async () => {
       let ds = new DataStore();
 
-      assert(!ds.initialized);
+      assert.ok(!ds.initialized);
 
       let result;
       result = await ds.reset();
-      assert(!ds.initialized);
+      assert.ok(!ds.initialized);
       assert.strictEqual(result, ds);
     });
     it("resets and reinitializes a datastore", async () => {
       let ds = await setupTest()();
 
-      assert(ds.initialized);
+      assert.ok(ds.initialized);
 
       let result;
       result = await ds.reset();
-      assert(!ds.initialized);
+      assert.ok(!ds.initialized);
       assert.strictEqual(result, ds);
 
       let appKey = null;
       result = await ds.initialize({
         appKey
       });
-      assert(ds.initialized);
+      assert.ok(ds.initialized);
       assert.strictEqual(result, ds);
     });
     it("rebases a datastore to a new password", async () => {
       let ds = await setupTest("XU-4a5FQIXLKCBo8uWZbODbL7t2jeOwxHodsoHIJQ7w")();
       let cache = await populateDataStore(ds);
 
-      assert(ds.initialized);
-      assert(!ds.locked);
+      assert.ok(ds.initialized);
+      assert.ok(!ds.locked);
 
       let result, appKey;
       appKey = await jose.JWK.asKey({
@@ -165,14 +165,14 @@ describe("datastore", () => {
         appKey,
         rebase: true
       });
-      assert(ds.initialized);
-      assert(!ds.locked);
+      assert.ok(ds.initialized);
+      assert.ok(!ds.locked);
       assert.strictEqual(result, ds);
 
       await ds.lock();
-      assert(ds.locked);
+      assert.ok(ds.locked);
       result = await ds.unlock(appKey);
-      assert(!ds.locked);
+      assert.ok(!ds.locked);
       assert.strictEqual(result, ds);
 
       let all = await ds.list();
@@ -262,7 +262,7 @@ describe("datastore", () => {
       // result is the full item
       expected = result;
       result = await main.get(expected.id);
-      assert(expected !== result);
+      assert.ok(expected !== result);
       assert.deepEqual(result, expected);
 
       something = JSON.parse(JSON.stringify(result));
@@ -292,7 +292,7 @@ describe("datastore", () => {
 
       expected = result;
       result = await main.get(expected.id);
-      assert(expected !== result);
+      assert.ok(expected !== result);
       assert.deepEqual(result, expected);
 
       something = JSON.parse(JSON.stringify(result));
@@ -326,7 +326,7 @@ describe("datastore", () => {
 
       expected = result;
       result = await main.get(expected.id);
-      assert(expected !== result);
+      assert.ok(expected !== result);
       assert.deepEqual(result, expected);
 
       something = JSON.parse(JSON.stringify(result));
@@ -353,7 +353,7 @@ describe("datastore", () => {
 
       expected = result;
       result = await main.get(expected.id);
-      assert(expected !== result);
+      assert.ok(expected !== result);
       assert.deepEqual(result, expected);
 
       something = result;
@@ -371,7 +371,7 @@ describe("datastore", () => {
       ]);
 
       result = await main.get(result.id);
-      assert(!result);
+      assert.ok(!result);
     });
 
     describe("locked failures", () => {
@@ -479,7 +479,7 @@ describe("datastore", () => {
       // result is the full item
       let expected = result;
       result = await main.get(expected.id);
-      assert(expected !== result);
+      assert.ok(expected !== result);
       assert.deepEqual(result, expected);
 
       expectedID = expected.id;

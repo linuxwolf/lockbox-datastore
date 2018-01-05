@@ -26,7 +26,7 @@
     "eqeqeq": "error",
     "indent": ["error", 2, {"SwitchCase": 1, "VariableDeclarator": {"var": 2, "let": 2, "const": 3}}],
     "linebreak-style": ["error", "unix"],
-    "no-var": "off",
+    "no-var": "warn",
     "no-warning-comments": "warn",
     "prefer-const": "off",
     "quotes": ["error", "double"],

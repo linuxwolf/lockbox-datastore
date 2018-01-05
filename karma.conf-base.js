@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Tue Jul 25 2017 09:02:14 GMT-0600 (MDT)
 
-var PATH = require("path");
+const PATH = require("path");
 
 module.exports = function(config, more) {
   let opts = {

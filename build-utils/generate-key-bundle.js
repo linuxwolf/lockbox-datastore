@@ -56,7 +56,7 @@ async function deriveKeys(appKey, salt) {
   };
 }
 
-var argv = yargs.
+const argv = yargs.
   option("output", {
     desc: "the file to write the results to",
     required: true,

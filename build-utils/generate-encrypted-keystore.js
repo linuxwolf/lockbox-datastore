@@ -11,7 +11,7 @@ const jose = require("node-jose"),
       UUID = require("uuid");
 
 
-var argv = yargs.
+const argv = yargs.
   option("bundle", {
     desc: "the key bundle to use for encryption",
     required: true,
@@ -30,7 +30,7 @@ var argv = yargs.
   help().
   argv;
 
-var keystore = jose.JWK.createKeyStore();
+const keystore = jose.JWK.createKeyStore();
 
 async function createItemKey() {
   let params = {
